@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://tnicf83j0vjo"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_hp2ts"]
+[ext_resource type="Script" path="res://scripts/camx.gd" id="2_rn8sf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jn0en"]
+radius = 0.1
+height = 3.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s5x6j"]
+size = Vector3(34.2111, 0.279238, 27.0322)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ae3uc"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jb168"]
+
+[sub_resource type="Sky" id="Sky_4ioga"]
+sky_material = SubResource("ProceduralSkyMaterial_jb168")
+
+[sub_resource type="Environment" id="Environment_sp450"]
+background_mode = 2
+sky = SubResource("Sky_4ioga")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(-5.46392e-08, 0, 1.25, 0, 1.25, 0, -1.25, 0, -5.46392e-08, 0, 2.93, 0)
+script = ExtResource("1_hp2ts")
+x_look_sensitivity = 0.15
+y_look_sensitivity = 0.15
+movement_speed = 75.0
+
+[node name="Camera" type="Camera3D" parent="Player"]
+transform = Transform3D(0.8, -6.97234e-09, 7.02137e-10, 6.97234e-09, 0.783937, -0.159507, 7.02137e-10, 0.159507, 0.783937, 0, 1.36, 0)
+current = true
+far = 1000.0
+script = ExtResource("2_rn8sf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_jn0en")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="StaticBody3D"]
+size = Vector3(34.8243, 0.212838, 27.1669)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_s5x6j")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.694156, 0.543687, -0.471754, 0, 0.655374, 0.755305, 0.719825, -0.524299, 0.454932, 0, 29.5996, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0634, 1.63553, 0)
+material_override = SubResource("StandardMaterial3D_ae3uc")
+size = Vector3(3, 3, 3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sp450")
