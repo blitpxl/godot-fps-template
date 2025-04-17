@@ -22,38 +22,6 @@ func _input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("debug_exit"):
 		get_tree().quit()
-		
-	if Input.is_action_just_pressed("move_left"):
-		create_tween().tween_property(camera, "rotation_degrees:z", camera_tilt,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	elif Input.is_action_just_released("move_left"):
-		create_tween().tween_property(camera, "rotation_degrees:z", 0, 
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		
-	if Input.is_action_just_pressed("move_right"):
-		create_tween().tween_property(camera, "rotation_degrees:z", -camera_tilt,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	elif Input.is_action_just_released("move_right"):
-		create_tween().tween_property(camera, "rotation_degrees:z", 0,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		
-		
-	if Input.is_action_just_pressed("move_forward"):
-		create_tween().tween_property(self, "rotation_degrees:x", camera_tilt,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	elif Input.is_action_just_released("move_forward"):
-		create_tween().tween_property(self, "rotation_degrees:x", 0, 
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		
-	if Input.is_action_just_pressed("move_backward"):
-		create_tween().tween_property(self, "rotation_degrees:x", -camera_tilt,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	elif Input.is_action_just_released("move_backward"):
-		create_tween().tween_property(self, "rotation_degrees:x", 0,
-		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		
-
-
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -92,3 +60,33 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	velocity = unrotated_velocity
 	velocity = lerp(velocity, Vector3(0, velocity.y, 0), 8 * delta)
+	
+	# show me your tilts
+	if Input.is_action_just_pressed("move_left"):
+		create_tween().tween_property(camera, "rotation_degrees:z", camera_tilt,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	elif Input.is_action_just_released("move_left") and not lateral_movement:
+		create_tween().tween_property(camera, "rotation_degrees:z", 0, 
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
+	if Input.is_action_just_pressed("move_right"):
+		create_tween().tween_property(camera, "rotation_degrees:z", -camera_tilt,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	elif Input.is_action_just_released("move_right") and not lateral_movement:
+		create_tween().tween_property(camera, "rotation_degrees:z", 0,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
+	
+	if Input.is_action_just_pressed("move_forward"):
+		create_tween().tween_property(self, "rotation_degrees:x", camera_tilt,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	elif Input.is_action_just_released("move_forward") and not longitudinal_movement:
+		create_tween().tween_property(self, "rotation_degrees:x", 0, 
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
+	if Input.is_action_just_pressed("move_backward"):
+		create_tween().tween_property(self, "rotation_degrees:x", -camera_tilt,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	elif Input.is_action_just_released("move_backward") and not longitudinal_movement:
+		create_tween().tween_property(self, "rotation_degrees:x", 0,
+		0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
